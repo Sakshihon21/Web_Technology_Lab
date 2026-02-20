@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Open Elective Registration</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="overlay"></div>
+
+<div class="container">
+
+  <h1 class="page-title">Open Elective Subject Registration Form</h1>
+
+  <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="card">
+
+    <!-- STEP 1 -->
+    <div class="step active">
+      <h2>Student Details</h2>
+
+      <div class="field">
+        <input type="text" id="name" required>
+        <label>Name</label>
+        <small>Only alphabets allowed</small>
+      </div>
+
+      <div class="field">
+        <input type="text" id="roll" required>
+        <label>Roll No</label>
+        <small>Only numbers allowed</small>
+      </div>
+
+      <div class="field">
+        <input type="text" id="div" maxlength="1" required>
+        <label>DIV</label>
+        <small>Single alphabet only</small>
+      </div>
+
+      <button class="next">Next</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <h2>Academic Details</h2>
+
+      <div class="field">
+        <input type="text" id="prn" required>
+        <label>PRN</label>
+        <small>Only numbers allowed</small>
+      </div>
+
+      <div class="field">
+        <input type="text" id="class" required>
+        <label>Class</label>
+        <small>Alphanumeric only</small>
+      </div>
+
+      <div class="field">
+        <select id="subject" required>
+          <option value="" disabled selected></option>
+          <option>ADS</option>
+          <option>Ethical Hacking</option>
+          <option>Machine Learning</option>
+          <option>IoT</option>
+        </select>
+        <label>Subject</label>
+        <small>Please select a subject</small>
+      </div>
+
+      <button class="prev">Back</button>
+      <button class="submit">Submit</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast error">⚠ Please correct highlighted fields</div>
+<div class="toast success">✅ Successfully Submitted</div>
+
+<script src="script.js"></script>
+</body>
+</html>
