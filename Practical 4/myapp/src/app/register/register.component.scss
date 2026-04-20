@@ -1,0 +1,140 @@
+/* 🌈 Page Background */
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  padding: 40px 0;
+}
+
+/* 🧊 Glass Card */
+.register-container {
+  width: 460px;
+  margin: auto;
+  padding: 35px 40px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  animation: slideUp 0.6s ease;
+}
+
+/* 🎯 Title */
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 700;
+  color: #2d2d2d;
+  letter-spacing: 0.5px;
+}
+
+/* 📦 Inputs & Select */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 13px 15px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1.5px solid #dcdcdc;
+  font-size: 14px;
+  background: #fff;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+  }
+}
+
+/* 📝 Textarea */
+textarea {
+  resize: none;
+  min-height: 80px;
+}
+
+/* ❌ Error State */
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border-color: #ff4d4f;
+  box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.15);
+}
+
+/* ✅ Checkbox */
+.terms {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  margin: 15px 0 20px;
+  color: #444;
+
+  input {
+    width: auto;
+    accent-color: #667eea;
+    cursor: pointer;
+  }
+}
+
+/* 🔘 Buttons */
+button {
+  width: 100%;
+  padding: 13px;
+  border-radius: 30px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 15px;
+}
+
+/* 🚀 Register Button */
+button[type='submit'] {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(118, 75, 162, 0.5);
+  }
+
+  &:disabled {
+    background: #b8b8b8;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+/* 🔙 Back Button */
+button[type='button'] {
+  margin-top: 12px;
+  background: transparent;
+  border: 2px solid #667eea;
+  color: #667eea;
+
+  &:hover {
+    background: #667eea;
+    color: white;
+  }
+}
+
+/* 📱 Responsive */
+@media (max-width: 520px) {
+  .register-container {
+    width: 92%;
+    padding: 25px;
+  }
+}
+
+/* ✨ Animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

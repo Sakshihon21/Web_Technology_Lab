@@ -1,0 +1,45 @@
+<div class="register-container">
+  <h2>Create Account</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+    <input type="text" placeholder="Full Name" formControlName="fullName">
+    <input type="text" placeholder="Username" formControlName="username">
+    <input type="email" placeholder="Email" formControlName="email">
+    <input type="tel" placeholder="Contact Number" formControlName="phone">
+
+    <input type="date" formControlName="dob">
+    <input type="number" placeholder="Age" formControlName="age">
+
+    <select formControlName="gender">
+      <option value="">Select Gender</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+
+    <textarea placeholder="Address" formControlName="address"></textarea>
+
+    <input type="text" placeholder="City" formControlName="city">
+    <input type="text" placeholder="State" formControlName="state">
+    <input type="text" placeholder="Pincode" formControlName="pincode">
+    <input type="text" placeholder="Country" formControlName="country">
+
+    <input type="password" placeholder="Password" formControlName="password">
+    <input type="password" placeholder="Confirm Password" formControlName="confirmPassword">
+
+    <label class="terms">
+      <input type="checkbox" formControlName="terms">
+      I agree to the Terms & Conditions
+    </label>
+
+    <button type="submit" [disabled]="registerForm.invalid">
+      Register
+    </button>
+
+    <button type="button" routerLink="/login">
+      Back to Login
+    </button>
+
+  </form>
+</div>
