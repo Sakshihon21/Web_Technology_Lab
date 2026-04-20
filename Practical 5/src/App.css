@@ -1,0 +1,113 @@
+body{
+  margin:0;
+  padding:0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+}
+
+/* Main Container */
+
+.container{
+  width:90%;
+  max-width:1100px;
+  margin:auto;
+  margin-top:40px;
+  background:white;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Heading */
+
+h1{
+  text-align:center;
+  color:white;
+  margin-top:20px;
+}
+
+h2{
+  text-align:center;
+  color:#444;
+}
+
+/* Form layout */
+
+form{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-top:20px;
+}
+
+/* Inputs */
+
+input,select{
+  padding:10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  font-size:14px;
+}
+
+/* Payment section */
+
+.payment{
+  grid-column:span 2;
+}
+
+/* Button */
+
+button{
+  grid-column:span 2;
+  padding:12px;
+  background:#667eea;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#5a67d8;
+}
+
+/* Table */
+
+table{
+  width:100%;
+  margin-top:30px;
+  border-collapse:collapse;
+}
+
+th{
+  background:#667eea;
+  color:white;
+  padding:10px;
+}
+
+td{
+  padding:10px;
+  text-align:center;
+  border-bottom:1px solid #ddd;
+}
+
+/* Action buttons */
+
+.action-btn{
+  padding:6px 10px;
+  margin:3px;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+.edit-btn{
+  background:orange;
+  color:white;
+}
+
+.delete-btn{
+  background:red;
+  color:white;
+}
