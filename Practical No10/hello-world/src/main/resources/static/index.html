@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World Spring Boot</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Abstract glowing background blobs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: 0;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background-color: #ec4899;
+            top: -100px;
+            left: -100px;
+        }
+        
+        .blob-2 {
+            width: 300px;
+            height: 300px;
+            background-color: var(--primary);
+            bottom: -50px;
+            right: -50px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.8s forwards cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            padding: 0.35rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        p.description {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .result-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .result-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
+        }
+        
+        #api-message {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 0.5rem;
+        }
+
+        #api-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .btn {
+            margin-top: 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .loader {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid #10b981;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="container">
+        <div class="header-badge">SPRING BOOT</div>
+        <h1>Web Service</h1>
+        <p class="description">
+            A foundational block demonstrating auto-configuration, embedded server, and REST endpoints.
+        </p>
+
+        <div class="result-box">
+            <div class="loader" id="loader"></div>
+            <div id="result-content">
+                <div id="api-message">Ready</div>
+                <div id="api-desc">Click the button to fetch the greeting</div>
+            </div>
+        </div>
+
+        <button class="btn" onclick="fetchGreeting()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.59-9.21l5.94-4.15"/>
+            </svg>
+            Fetch Greeting
+        </button>
+    </div>
+
+    <script>
+        function fetchGreeting() {
+            const loader = document.getElementById('loader');
+            const content = document.getElementById('result-content');
+            const msgEl = document.getElementById('api-message');
+            const descEl = document.getElementById('api-desc');
+
+            content.style.display = 'none';
+            loader.style.display = 'block';
+
+            // Simulate slight network delay for visual effect
+            setTimeout(() => {
+                fetch('/api/greeting')
+                    .then(response => response.json())
+                    .then(data => {
+                        loader.style.display = 'none';
+                        content.style.display = 'block';
+                        
+                        msgEl.innerText = data.message;
+                        msgEl.style.color = '#38bdf8'; // light blue color
+                        
+                        descEl.innerText = data.description;
+                    })
+                    .catch(error => {
+                        loader.style.display = 'none';
+                        content.style.display = 'block';
+                        
+                        msgEl.innerText = "Error";
+                        msgEl.style.color = '#ef4444'; // red color
+                        
+                        descEl.innerText = "Could not reach the server.";
+                        console.error('Error:', error);
+                    });
+            }, 600);
+        }
+        
+        // Auto-fetch on load
+        window.addEventListener('DOMContentLoaded', fetchGreeting);
+    </script>
+</body>
+</html>
