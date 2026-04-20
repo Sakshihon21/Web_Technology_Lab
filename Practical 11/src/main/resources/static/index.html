@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee & Task Management Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --sidebar-bg: rgba(30, 41, 59, 0.9);
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, hsla(225,39%,30%,0.2) 0, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar container */
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-item {
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--text-main);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 3rem;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.5s ease-out;
+        }
+
+        .header-actions button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        }
+
+        .header-actions button:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Tables & Lists */
+        .data-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(8px);
+            margin-bottom: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Action Buttons */
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+
+        .btn-edit {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        /* Badges */
+        .status-badge {
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-completed { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .status-in_progress { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+
+        .hidden { display: none; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Modal Fake UI */
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 400px;
+            border: 1px solid var(--border-color);
+        }
+        .modal h2 { margin-bottom: 1rem; font-size: 1.3rem; }
+        .modal input, .modal select {
+            width: 100%; padding: 0.8rem; margin-bottom: 1rem;
+            background: rgba(0,0,0,0.2); border: 1px solid var(--border-color);
+            color: white; border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">AppManager_</div>
+        <div class="nav-item active" onclick="switchTab('tasks')">📋 Task Board</div>
+        <div class="nav-item" onclick="switchTab('employees')">👥 Employees</div>
+        <div class="nav-item" onclick="alert('Feature under development')">⚙️ Settings</div>
+    </aside>
+
+    <!-- Main Dashboard Content -->
+    <main class="main-content">
+        
+        <!-- Tasks Section -->
+        <div id="tasks-view">
+            <header>
+                <div>
+                    <h2 style="font-size: 1.8rem; font-weight: 500;">Task Management</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Manage workflow and track status.</p>
+                </div>
+                <div class="header-actions">
+                    <button onclick="openModal('New Project Task')">+ Create Task</button>
+                </div>
+            </header>
+
+            <div class="data-section">
+                <div class="section-title">Active Tasks (Fetched from Spring Boot API)</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Description</th>
+                            <th>Assignee</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskTableBody">
+                        <tr><td colspan="5" style="text-align:center; padding: 2rem;">Loading API data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Employees Section -->
+        <div id="employees-view" class="hidden">
+            <header>
+                <div>
+                    <h2 style="font-size: 1.8rem; font-weight: 500;">Employee Directory</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Manage your team and roles.</p>
+                </div>
+                <div class="header-actions">
+                    <button onclick="openModal('Register Employee')">+ Add Employee</button>
+                </div>
+            </header>
+
+            <div class="data-section">
+                <div class="section-title">Enrolled Staff</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Emp ID</th>
+                            <th>Name</th>
+                            <th>Role / Title</th>
+                            <th>Department</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>EMP-001</td><td>John Doe</td><td>Senior Developer</td><td>Engineering</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="action-btn btn-edit" onclick="openModal('Edit Employee: John Doe')">Edit</button>
+                                    <button class="action-btn btn-delete" onclick="alert('Delete EMP-001?')">Remove</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>EMP-002</td><td>Jane Smith</td><td>Project Manager</td><td>Management</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="action-btn btn-edit" onclick="openModal('Edit Employee: Jane Smith')">Edit</button>
+                                    <button class="action-btn btn-delete" onclick="alert('Delete EMP-002?')">Remove</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>EMP-003</td><td>Alice Walker</td><td>DevOps Engineer</td><td>Engineering</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="action-btn btn-edit" onclick="openModal('Edit Employee: Alice Walker')">Edit</button>
+                                    <button class="action-btn btn-delete" onclick="alert('Delete EMP-003?')">Remove</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Generic Modal Dialog UI -->
+    <div class="modal-overlay" id="genericModal">
+        <div class="modal">
+            <h2 id="modalTitle">Edit Record</h2>
+            <input type="text" placeholder="Title/Name...">
+            <input type="text" placeholder="Description/Roles...">
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button onclick="closeModal()" style="flex:1; padding: 0.8rem; background:rgba(255,255,255,0.1); border:none; color:white; border-radius:6px; cursor:pointer;">Cancel</button>
+                <button onclick="closeModal(); alert('Saved successfully!');" style="flex:1; padding: 0.8rem; background:var(--primary); border:none; color:white; border-radius:6px; cursor:pointer;">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fetch tasks dynamically on load
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchTasksForTable();
+        });
+
+        // Basic Tab Navigation
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            document.getElementById('tasks-view').classList.add('hidden');
+            document.getElementById('employees-view').classList.add('hidden');
+            document.getElementById(tabId + '-view').classList.remove('hidden');
+        }
+
+        // Modal Functions
+        function openModal(title) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('genericModal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('genericModal').style.display = 'none';
+        }
+
+        // Fetch Data logic
+        async function fetchTasksForTable() {
+            try {
+                const response = await fetch('/api/tasks');
+                const tasks = await response.json();
+                const tbody = document.getElementById('taskTableBody');
+                tbody.innerHTML = ''; 
+
+                const mockAssignees = ["John Doe", "Alice Walker", "Jane Smith"];
+
+                tasks.forEach((task, index) => {
+                    const statusClass = task.status.toLowerCase() === 'completed' 
+                        ? 'status-completed' : 'status-in_progress';
+                    const displayStatus = task.status.replace('_', ' ');
+                    const assignee = mockAssignees[index % mockAssignees.length];
+
+                    tbody.innerHTML += \`
+                        <tr>
+                            <td style="color: var(--text-muted); font-size: 0.9rem;">#\${task.id}</td>
+                            <td>
+                                <div style="font-weight: 500; margin-bottom: 3px;">\${task.title}</div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">\${task.description}</div>
+                            </td>
+                            <td><span style="background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 20px; font-size: 0.85rem; cursor:pointer;" onclick="openModal('Assign Dev to Task #\${task.id}')">👤 \${assignee}</span></td>
+                            <td><div class="status-badge \${statusClass}">\${displayStatus}</div></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="action-btn btn-edit" onclick="openModal('Edit Task #\${task.id}: \${task.title}')">Edit</button>
+                                    <button class="action-btn btn-delete" onclick="alert('Are you sure you want to delete Task #\${task.id}?');">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    \`;
+                });
+            } catch (error) {
+                document.getElementById('taskTableBody').innerHTML = \`
+                    <tr><td colspan="5" style="color:#ef4444;text-align:center;">Failed to connect to API Backend.</td></tr>
+                \`;
+            }
+        }
+    </script>
+</body>
+</html>
